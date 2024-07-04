@@ -174,70 +174,70 @@ exports.searchUserByName = async (req, res) => {
   }
 };
 
-exports.followUser = async (req, res) => {
-  const { userId } = req.params;
-  const { currentUserId } = req.body;
+// exports.followUser = async (req, res) => {
+//   const { userId } = req.params;
+//   const { currentUserId } = req.body;
 
-  try {
-    const currentUser = await User.findById(currentUserId);
-    if (!currentUser) {
-      return res.status(404).json({ message: "Current user not found" });
-    }
+//   try {
+//     const currentUser = await User.findById(currentUserId);
+//     if (!currentUser) {
+//       return res.status(404).json({ message: "Current user not found" });
+//     }
 
-    const targetUser = await User.findById(userId);
-    if (!targetUser) {
-      return res.status(404).json({ message: "Target user not found" });
-    }
+//     const targetUser = await User.findById(userId);
+//     if (!targetUser) {
+//       return res.status(404).json({ message: "Target user not found" });
+//     }
 
-    if (currentUser.following.includes(userId)) {
-      return res.status(400).json({ message: "Already following this user" });
-    }
+//     if (currentUser.following.includes(userId)) {
+//       return res.status(400).json({ message: "Already following this user" });
+//     }
 
-    currentUser.following.push(userId);
-    await currentUser.save();
+//     currentUser.following.push(userId);
+//     await currentUser.save();
 
-    targetUser.followers.push(currentUserId);
-    await targetUser.save();
+//     targetUser.followers.push(currentUserId);
+//     await targetUser.save();
 
-    return res.status(200).json({ message: "User followed successfully" });
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-};
+//     return res.status(200).json({ message: "User followed successfully" });
+//   } catch (error) {
+//     return res.status(500).json({ message: error.message });
+//   }
+// };
 
-exports.unfollowUser = async (req, res) => {
-  const { userId } = req.params;
-  const { currentUserId } = req.body;
+// exports.unfollowUser = async (req, res) => {
+//   const { userId } = req.params;
+//   const { currentUserId } = req.body;
 
-  try {
-    const currentUser = await User.findById(currentUserId);
-    if (!currentUser) {
-      return res.status(404).json({ message: "Current user not found" });
-    }
+//   try {
+//     const currentUser = await User.findById(currentUserId);
+//     if (!currentUser) {
+//       return res.status(404).json({ message: "Current user not found" });
+//     }
 
-    const targetUser = await User.findById(userId);
-    if (!targetUser) {
-      return res.status(404).json({ message: "Target user not found" });
-    }
+//     const targetUser = await User.findById(userId);
+//     if (!targetUser) {
+//       return res.status(404).json({ message: "Target user not found" });
+//     }
 
-    if (!currentUser.following.includes(userId)) {
-      return res
-        .status(400)
-        .json({ message: "User is not currently being followed" });
-    }
+//     if (!currentUser.following.includes(userId)) {
+//       return res
+//         .status(400)
+//         .json({ message: "User is not currently being followed" });
+//     }
 
-    currentUser.following = currentUser.following.filter(
-      (id) => id.toString() !== userId
-    );
-    await currentUser.save();
+//     currentUser.following = currentUser.following.filter(
+//       (id) => id.toString() !== userId
+//     );
+//     await currentUser.save();
 
-    targetUser.followers = targetUser.followers.filter(
-      (id) => id.toString() !== currentUserId
-    );
-    await targetUser.save();
+//     targetUser.followers = targetUser.followers.filter(
+//       (id) => id.toString() !== currentUserId
+//     );
+//     await targetUser.save();
 
-    return res.status(200).json({ message: "User unfollowed successfully" });
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-};
+//     return res.status(200).json({ message: "User unfollowed successfully" });
+//   } catch (error) {
+//     return res.status(500).json({ message: error.message });
+//   }
+// };

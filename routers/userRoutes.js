@@ -12,7 +12,7 @@ router.delete("/deleteUser/:id", userController.deleteUser);
 router.get("/getUsers", userController.getUsers);
 router.get("/searchUserByName", userController.searchUserByName);
 
-router.post("/follow/:userId", authMiddleware, userController.followUser);
-router.delete("/unfollow/:userId", authMiddleware, userController.unfollowUser);
+// router.post("/follow/:userId", authMiddleware, userController.followUser);
+// router.delete("/unfollow/:userId", authMiddleware, userController.unfollowUser);
 
 module.exports = router;

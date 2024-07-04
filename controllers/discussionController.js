@@ -2,15 +2,21 @@ const Discussion = require("../models/discussionModel");
 
 exports.createDiscussion = async (req, res) => {
   try {
-    const discussion = new Discussion({
-      ...req.body,
-      user: req.user.id,
-    });
-    await discussion.save();
+    const { text, image, hashtags } = req.body;
+    const userId = req.user.id;
 
+    const newDiscussion = new Discussion({
+      text,
+      image,
+      hashtags,
+      createdOn: new Date(),
+      postedBy: userId,
+    });
+
+    const savedDiscussion = await newDiscussion.save();
     return res.status(201).json({
       message: "Discussion created successfully",
-      discussion: discussion,
+      discussion: savedDiscussion,
     });
   } catch (error) {
     return res.status(400).json({

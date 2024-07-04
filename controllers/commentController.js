@@ -2,7 +2,6 @@ const Comment = require("../models/commentModel");
 const Discussion = require("../models/discussionModel");
 const User = require("../models/userModel");
 
-// Create a new comment
 exports.createComment = async (req, res) => {
   try {
     const { discussionId, text } = req.body;
@@ -31,7 +30,6 @@ exports.createComment = async (req, res) => {
   }
 };
 
-// Update an existing comment
 exports.updateComment = async (req, res) => {
   try {
     const { id } = req.params;
@@ -58,7 +56,6 @@ exports.updateComment = async (req, res) => {
   }
 };
 
-// Delete a comment
 exports.deleteComment = async (req, res) => {
   try {
     const { id } = req.params;
@@ -73,7 +70,7 @@ exports.deleteComment = async (req, res) => {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
-    await comment.remove();
+    await Comment.findByIdAndDelete(id);
 
     const discussion = await Discussion.findById(comment.discussion);
     discussion.comments.pull(comment._id);
@@ -85,13 +82,12 @@ exports.deleteComment = async (req, res) => {
   }
 };
 
-// Like a comment
 exports.likeComment = async (req, res) => {
   try {
-    const { commentId } = req.params;
+    const { id } = req.params;
     const userId = req.user.id;
 
-    const comment = await Comment.findById(commentId);
+    const comment = await Comment.findById(id);
     if (!comment) {
       return res.status(404).json({ message: "Comment not found" });
     }
@@ -113,30 +109,33 @@ exports.likeComment = async (req, res) => {
   }
 };
 
-// Dislike a comment
-exports.dislikeComment = async (req, res) => {
-  try {
-    const { commentId } = req.params;
-    const userId = req.user.id;
+// exports.replyToComment = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const { text } = req.body;
+//     const userId = req.user.id;
 
-    const comment = await Comment.findById(commentId);
-    if (!comment) {
-      return res.status(404).json({ message: "Comment not found" });
-    }
+//     const newReply = new Comment({
+//       text,
+//       postedBy: userId,
+//       createdOn: new Date(),
+//       parentComment: id,
+//       discussion: req.body.discussionId,
+//     });
 
-    if (!comment.likes.includes(userId)) {
-      return res
-        .status(400)
-        .json({ message: "You have not liked this comment yet" });
-    }
+//     const savedReply = await newReply.save();
 
-    comment.likes.pull(userId);
-    await comment.save();
+//     await Comment.findByIdAndUpdate(commentId, {
+//       $push: { replies: savedReply._id },
+//     });
 
-    return res
-      .status(200)
-      .json({ message: "Comment disliked successfully", comment });
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-};
+//     return res.status(201).json({
+//       message: "Reply added successfully",
+//       reply: savedReply,
+//     });
+//   } catch (error) {
+//     return res.status(400).json({
+//       message: error.message,
+//     });
+//   }
+// };
