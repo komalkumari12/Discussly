@@ -35,17 +35,17 @@ List the technologies and frameworks used in the project.
 
 
 Features
-User authentication (signup/login/logout)
-CRUD operations for users
-CRUD operations for discussions
-Cross platform
-Contributions
-Contributions are always welcome!
+- User authentication (signup/login/logout)
+- CRUD operations for users
+- CRUD operations for discussions
+- Cross platform
+- Contributions
+- Contributions are always welcome!
 
 
 
 Fork the repository
-Create a new branch (git checkout -b feature-branch)
-Make changes and commit them (git commit -am 'Add new feature')
-Push to the branch (git push origin feature-branch)
-Create a pull request
+- Create a new branch (git checkout -b feature-branch)
+- Make changes and commit them (git commit -am 'Add new feature')
+- Push to the branch (git push origin feature-branch)
+- Create a pull request
