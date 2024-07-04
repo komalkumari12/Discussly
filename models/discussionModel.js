@@ -5,26 +5,13 @@ const discussionSchema = new mongoose.Schema({
   image: { type: String },
   hashtags: [{ type: String }],
   createdOn: { type: Date, default: Date.now },
-  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  postedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-  comments: [
-    {
-      user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-      text: { type: String, required: true },
-      createdOn: { type: Date, default: Date.now },
-      likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-      replies: [
-        {
-          user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-          text: { type: String, required: true },
-          createdOn: { type: Date, default: Date.now },
-          likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-        },
-      ],
-    },
-  ],
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
 });
 
-const Discussion = mongoose.model("Discussion", discussionSchema);
-
-module.exports = Discussion;
+module.exports = mongoose.model("Discussion", discussionSchema);

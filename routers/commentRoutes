@@ -1,0 +1,15 @@
+const express = require('express');
+const router = express.Router();
+const commentController = require('../controllers/commentController');
+const authMiddleware = require('../middlewares/authMiddleware'); // JWT authentication middleware
+
+// Comment CRUD operations
+router.post('/createComment', authMiddleware, commentController.createComment);
+router.put('/updateComment/:id', authMiddleware, commentController.updateComment);
+router.delete('/deleteComment/:id', authMiddleware, commentController.deleteComment);
+
+// Comment Like/Dislike operations
+router.post('/likeComment/:commentId', authMiddleware, commentController.likeComment);
+router.post('/dislikeComment/:commentId', authMiddleware, commentController.dislikeComment);
+
+module.exports = router;

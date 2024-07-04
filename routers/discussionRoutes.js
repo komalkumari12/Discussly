@@ -2,7 +2,12 @@ const express = require("express");
 const router = express.Router();
 const discussionController = require("../controllers/discussionController");
 
-router.post("/createDiscussion", discussionController.createDiscussion);
+router.post(
+  "/createDiscussion",
+  authMiddleware,
+  discussionController.createDiscussion
+);
+
 router.put("/updateDiscussion/:id", discussionController.updateDiscussion);
 router.delete("/deleteDiscussion/:id", discussionController.deleteDiscussion);
 router.get("/getDiscussions", discussionController.getDiscussions);

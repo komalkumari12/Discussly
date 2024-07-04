@@ -3,13 +3,15 @@ const app = express();
 require("dotenv").config();
 require("./config/database");
 
-const userRouter = require("./routers/userRoutes");
-const discussionRouter = require("./routers/discussionRoutes");
-const authMiddleware = require("./middlewares/authMiddleware");
+const userRoutes = require("./routers/userRoutes");
+const discussionRoutes = require("./routers/discussionRoutes");
+const commentRoutes = require("./routers/commentRoutes");
 
 app.use(express.json());
-app.use("/api/user", userRouter);
-app.use("/api/discussions", authMiddleware, discussionRouter);
+
+app.use("/api/users", userRoutes);
+app.use("/api/discussions", discussionRoutes);
+app.use("/api/comments", commentRoutes);
 
 const port = process.env.PORT || 3000;
 
